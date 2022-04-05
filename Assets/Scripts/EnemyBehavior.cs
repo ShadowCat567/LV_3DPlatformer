@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     Rigidbody rb;
-    float enemyVelo = 3.0f;
+    float enemyVelo = 5.0f;
     public enum enemyType { x_dir, z_dir };
     public enemyType typeOfEnemy;
     Vector3 moveVect;
@@ -38,7 +38,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Wall")
+        if(collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")
         {
             enemyVelo = -enemyVelo;
         }

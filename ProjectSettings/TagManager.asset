@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Wall
   - Enemy
+  - Stop
+  - Death
+  - Score
   layers:
   - Default
   - TransparentFX

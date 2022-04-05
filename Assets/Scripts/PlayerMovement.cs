@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,17 +21,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform respawnPos;
     [SerializeField] Image[] healthArr = new Image[3];
 
+    int score = 0;
+    [SerializeField] TMP_Text score_text;
+    Color scoreColor = new Color(0.8f, 0.57f, 0.07f);
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rend = GetComponent<Renderer>();
         curHealth = maxHealth;
+        score_text.text = "Score: " + score;
     }
 
     private void Update()
     {
-        if(curHealth == 0)
+        if(curHealth <= 0)
         {
             transform.position = respawnPos.position;
             curHealth = maxHealth;
@@ -77,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
-            StartCoroutine(colorFlash(dmgColorTimer));
+            StartCoroutine(colorFlash(dmgColorTimer, dmgColor));
             curHealth -= 1;
             healthArr[curHealth].enabled = false;
         }
@@ -86,11 +92,28 @@ public class PlayerMovement : MonoBehaviour
         {
             grounded = true;
         }
+
+        if(collision.gameObject.tag == "Score")
+        {
+            StartCoroutine(colorFlash(dmgColorTimer, scoreColor));
+            score += 1;
+            score_text.text = "Score: " + score;
+        }
+
+        if(collision.gameObject.tag == "Death")
+        {
+            curHealth = 0;
+        }
+
+        if(collision.gameObject.tag == "Finish")
+        {
+            //go to some kind of end game thing
+        }
     }
 
-    IEnumerator colorFlash(float flashTime)
+    IEnumerator colorFlash(float flashTime, Color flashedColor)
     {
-        rend.material.color = dmgColor;
+        rend.material.color = flashedColor;
         yield return new WaitForSeconds(flashTime);
         rend.material.color = Color.white;
     }
