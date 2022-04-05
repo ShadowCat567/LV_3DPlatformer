@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HMovingPlat : MonoBehaviour
 {
+    //movement related variables
     Rigidbody rb;
     float moveVelo = 4.0f;
     Vector3 moveVect = new Vector3(0.0f, 0.0f, 1.0f);
@@ -11,11 +12,13 @@ public class HMovingPlat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //get access to rigidbody
         rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
+        //move the platform (along the z axis)
         rb.velocity = moveVect * moveVelo;
     }
 
@@ -23,6 +26,7 @@ public class HMovingPlat : MonoBehaviour
     {
         if(collision.gameObject.tag == "Ground")
         {
+            //if the platform runs into an object tagged with "Ground", reverse direction
             moveVelo = -moveVelo;
         }
     }
