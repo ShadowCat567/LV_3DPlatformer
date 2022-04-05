@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     bool isJumping = false;
     bool grounded = true;
     Rigidbody rb;
+    PlayerInput pi;
 
     int curHealth;
     int maxHealth = 3;
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform respawnPos;
     [SerializeField] Image[] healthArr = new Image[3];
 
-    int score = 0;
+    public int score = 0;
     [SerializeField] TMP_Text score_text;
     Color scoreColor = new Color(0.8f, 0.57f, 0.07f);
 
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rend = GetComponent<Renderer>();
+        pi = GetComponent<PlayerInput>();
         curHealth = maxHealth;
         score_text.text = "Score: " + score;
     }
@@ -107,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(collision.gameObject.tag == "Finish")
         {
-            //go to some kind of end game thing
+            pi.enabled = false;
         }
     }
 
